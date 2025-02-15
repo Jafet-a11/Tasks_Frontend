@@ -1,0 +1,132 @@
+import React, { useState } from "react";
+import validator from "validator";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { Form, Input, Button, message } from "antd";
+import '../../App.css';
+function Registrationpage() {
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    birthDate: "",
+    fullName: "",
+  });
+
+  const navigate = useNavigate();
+  const [errors, setErrors] = useState({});
+
+  const handleSubmit = async () => {
+    if (Object.values(errors).some((error) => error)) {
+      message.error("Por favor, corrija los errores en el formulario");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/registro",
+        JSON.stringify(formData),
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      if (response.status === 200) {
+        message.success("Datos registrados correctamente");
+        navigate("/Pages/LandingPage/LandingPage");
+      }else{
+        message.error("Usuario o correo ya están registradosor");
+      }
+    } catch (error) {
+      message.error("Usuario o correo ya están registrados");
+    }
+  };
+
+  const validar = () => {
+    const newErrors = {};
+    if (validator.isEmpty(formData.username)) newErrors.username = "El usuario es obligatorio.";
+    if (!validator.isEmail(formData.email)) newErrors.email = "El correo no es válido.";
+    if (validator.isEmpty(formData.birthDate)) newErrors.birthDate = "Debe completar este campo.";
+    if (validator.isEmpty(formData.fullName)) newErrors.fullName = "Debe completar este campo.";
+    if (!validator.isLength(formData.password, { min: 8, max: 8 })) {
+      newErrors.password = "Debe tener exactamente 8 caracteres.";
+    } else if (!/[a-zA-Z]/.test(formData.password) || !/\d/.test(formData.password)) {
+      newErrors.password = "Debe contener al menos una letra y un número.";
+    }
+    setErrors(newErrors);
+  };
+
+  return (
+    <div
+      style={{
+        maxWidth: 400,
+        margin: "50px auto",
+        padding: 20,
+        borderRadius: 10,
+        boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+        textAlign: "center",
+         background:"white",
+      }}
+    >
+      <h2>Registro</h2>
+      <Form onFinish={handleSubmit} layout="vertical">
+        <Form.Item label="Usuario" validateStatus={errors.username ? "error" : "success"} help={errors.username}>
+          <Input
+            name="username"
+            value={formData.username}
+            onChange={(e) => setFormData({ ...formData, username: e.target.value.slice(0, 10) })}
+            onBlur={validar}
+          />
+        </Form.Item>
+
+        <Form.Item label="Correo" validateStatus={errors.email ? "error" : "success"} help={errors.email}>
+          <Input
+            name="email"
+            type="email"
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            onBlur={validar}
+          />
+        </Form.Item>
+
+        <Form.Item label="Contraseña" validateStatus={errors.password ? "error" : "success"} help={errors.password}>
+          <Input.Password
+            name="password"
+            value={formData.password}
+            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+            onBlur={validar}
+          />
+        </Form.Item>
+
+        <Form.Item label="Fecha de Nacimiento" validateStatus={errors.birthDate ? "error" : "success"} 
+        help={errors.birthDate}>
+          <Input
+            name="birthDate"
+            value={formData.birthDate}
+            onChange={(e) => setFormData({ ...formData, birthDate: e.target.value.slice(0, 10) })}
+            onBlur={validar}
+          />
+        </Form.Item>
+
+        <Form.Item label="Nombre Completo" validateStatus={errors.fullName ? "error" : "success"} 
+        help={errors.fullName}>
+          <Input
+            name="fullName"
+            value={formData.fullName}
+            onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+            onBlur={validar}
+          />
+        </Form.Item>
+
+        <Form.Item>
+          <Button type="primary" htmlType="submit">Registrarse</Button>
+          <Button type="link" onClick={() => navigate("/Pages/LandingPage/LandingPage")}>
+            Landing Page
+          </Button>
+        </Form.Item>
+      </Form>
+    </div>
+  );
+}
+
+export default Registrationpage;
