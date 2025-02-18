@@ -13,13 +13,15 @@ function Login() {
   // Manejo del envío del formulario
   const handleSubmit = async (values) => {
     const { username, password } = values; // Obtiene los valores del formulario
-
+  
     try {
-      // Realiza la petición GET para autenticar el usuario
-      const response = await axios.get(`http://localhost:5000/login`, {
-        params: { username, password },
-      });
-
+      // Realiza la petición POST para autenticar el usuario
+      const response = await axios.post(
+        `http://localhost:5000/login`,
+        { username, password },
+        { headers: { "Content-Type": "application/json" } }
+      );
+  
       // Verifica si la respuesta es exitosa
       if (response.status === 200) {
         message.success(`Inicio de sesión exitoso, bienvenido: ${username}`);
@@ -32,7 +34,7 @@ function Login() {
       console.error("Error de red:", error);
     }
   };
-
+  
   const handleUsernameChange = (e) => {
     const newUsername = e.target.value.trim();
     setUsername(newUsername);

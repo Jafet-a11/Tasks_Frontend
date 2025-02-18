@@ -9,8 +9,6 @@ function Registrationpage() {
     username: "",
     email: "",
     password: "",
-    birthDate: "",
-    fullName: "",
   });
 
   const navigate = useNavigate();
@@ -46,8 +44,6 @@ function Registrationpage() {
     const newErrors = {};
     if (validator.isEmpty(formData.username)) newErrors.username = "El usuario es obligatorio.";
     if (!validator.isEmail(formData.email)) newErrors.email = "El correo no es válido.";
-    if (validator.isEmpty(formData.birthDate)) newErrors.birthDate = "Debe completar este campo.";
-    if (validator.isEmpty(formData.fullName)) newErrors.fullName = "Debe completar este campo.";
     if (!validator.isLength(formData.password, { min: 8, max: 8 })) {
       newErrors.password = "Debe tener exactamente 8 caracteres.";
     } else if (!/[a-zA-Z]/.test(formData.password) || !/\d/.test(formData.password)) {
@@ -97,27 +93,6 @@ function Registrationpage() {
             onBlur={validar}
           />
         </Form.Item>
-
-        <Form.Item label="Fecha de Nacimiento" validateStatus={errors.birthDate ? "error" : "success"} 
-        help={errors.birthDate}>
-          <Input
-            name="birthDate"
-            value={formData.birthDate}
-            onChange={(e) => setFormData({ ...formData, birthDate: e.target.value.slice(0, 10) })}
-            onBlur={validar}
-          />
-        </Form.Item>
-
-        <Form.Item label="Nombre Completo" validateStatus={errors.fullName ? "error" : "success"} 
-        help={errors.fullName}>
-          <Input
-            name="fullName"
-            value={formData.fullName}
-            onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-            onBlur={validar}
-          />
-        </Form.Item>
-
         <Form.Item>
           <Button type="primary" htmlType="submit">Registrarse</Button>
           <Button type="link" onClick={() => navigate("/Pages/LandingPage/LandingPage")}>
