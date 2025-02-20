@@ -12,19 +12,30 @@ function Login() {
 
   // Manejo del envío del formulario
   const handleSubmit = async (values) => {
-    const { username, password } = values; // Obtiene los valores del formulario
+    const { username, password } = values;
   
     try {
-      // Realiza la petición POST para autenticar el usuario
+      // Autenticación
       const response = await axios.post(
         `http://localhost:5000/login`,
         { username, password },
         { headers: { "Content-Type": "application/json" } }
       );
   
-      // Verifica si la respuesta es exitosa
       if (response.status === 200) {
+        const token = response.data.token; // Guarda el token recibido
+        localStorage.setItem("token", token); // Almacena el token en localStorage
+  
         message.success(`Inicio de sesión exitoso, bienvenido: ${username}`);
+  
+        // Llamar a /protected con el token
+        const protectedResponse = await axios.get(`http://localhost:5000/protected`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+  
+        console.log("Usuario autenticado:", protectedResponse.data.user);
+  
+        // Redireccionar después de obtener la respuesta de /protected
         navigate("/Pages/Dashboard/DashboardPage");
       } else {
         message.error("Error al autenticar");
@@ -34,6 +45,7 @@ function Login() {
       console.error("Error de red:", error);
     }
   };
+  
   
   const handleUsernameChange = (e) => {
     const newUsername = e.target.value.trim();
