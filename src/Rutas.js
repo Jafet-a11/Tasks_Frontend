@@ -6,7 +6,7 @@ import DashboardHelp from "./Pages/Dashboard/DashboardHelp";
 import LoginPage from "./Pages/LoginPage/LoginPage";
 import LandingPage from "./Pages/LandingPage/LandingPage";
 import RegistrationPage from "./Pages/Registrationpage/Registrationpage";
-
+import DashboardGroup from "./Pages/Dashboard/DashboardGroup";
 const Rutas = () => {
   return (
     <Router>
@@ -18,6 +18,7 @@ const Rutas = () => {
         <Route path="/Pages/LoginPage/LoginPage" element={<LoginPage />} />
         <Route path="/Pages/LandingPage/LandingPage" element={<LandingPage />} />
         <Route path="/Pages/Registrationpage/Registrationpage" element={<RegistrationPage />} />
+        <Route path="/Pages/Dashboard/DashboardGroup" element={<DashboardGroup />} />
       </Routes>
     </Router>
   );

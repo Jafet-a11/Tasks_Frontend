@@ -1,5 +1,5 @@
-import React from 'react';
-import { Form, Input, DatePicker, Select, Button } from 'antd';
+import React from "react";
+import { Form, Input, DatePicker, Select, Button } from "antd";
 
 const { Option } = Select;
 
@@ -24,13 +24,14 @@ const TaskForm = ({ form, handleOk, handleCancel }) => {
           <Option value="Estudio">Estudio</Option>
         </Select>
       </Form.Item>
-      <Form.Item
-        name="deadline"
-        label="Fecha Límite"
-        rules={[{ required: true, message: "Selecciona una fecha" }]}
-      >
-        <DatePicker style={{ width: "100%" }} />
+      <Form.Item name="deadline" label="Fecha y Hora límite">
+        <DatePicker 
+          style={{ width: "100%" }} 
+          format="YYYY-MM-DD HH:mm" 
+          showTime={{ format: "HH:mm" }}
+        />
       </Form.Item>
+
       <Form.Item
         name="description"
         label="Descripción"
@@ -41,7 +42,9 @@ const TaskForm = ({ form, handleOk, handleCancel }) => {
       <Form.Item
         name="status"
         label="Estado"
-        rules={[{ required: true, message: "Selecciona el estado de la tarea" }]}
+        rules={[
+          { required: true, message: "Selecciona el estado de la tarea" },
+        ]}
       >
         <Select placeholder="Selecciona un estado">
           <Option value="Deshecho">Deshecho</Option>

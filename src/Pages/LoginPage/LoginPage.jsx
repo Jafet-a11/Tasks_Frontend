@@ -4,6 +4,7 @@ import axios from "axios";
 import { Form, Input, Button, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
+
 function Login() {
   const [form] = Form.useForm(); // Hook de Ant Design para manejar el formulario
   const navigate = useNavigate();
@@ -23,9 +24,15 @@ function Login() {
       );
   
       if (response.status === 200) {
+        console.log(response.data);
         const token = response.data.token; // Guarda el token recibido
+        const groupId = response.data.userData.group_id; 
+        const roles = response.data.userData.role; 
         localStorage.setItem("token", token); // Almacena el token en localStorage
-  
+        localStorage.setItem("username", username);
+        localStorage.setItem("group_id", groupId);
+        localStorage.setItem("role", roles);
+        console.log(roles);
         message.success(`Inicio de sesión exitoso, bienvenido: ${username}`);
   
         // Llamar a /protected con el token

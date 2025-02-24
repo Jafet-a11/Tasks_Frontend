@@ -51,7 +51,7 @@ const MainLayouts = ({ children }) => {
       <Layout>
         {/* Header */}
         <Header style={{ background: "#fff", padding: 0 }}>
-          Mi Aplicación
+          
         
         </Header>
 
