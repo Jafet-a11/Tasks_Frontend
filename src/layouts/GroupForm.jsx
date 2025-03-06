@@ -11,15 +11,11 @@ const GroupForm = ({ handleGroupOk, handleCancel, users }) => {
   const handleSelectChange = (value) => {
     // Actualizar el estado con los miembros seleccionados
     setSelectedUsers(value);
-    console.log(value);
   };
 
   if (!users || users.length === 0) {
     return <p>Cargando usuarios...</p>; // Mostrar un mensaje de carga si users no está disponible
   }
-
-  // Filtrar usuarios que ya tienen un grupo
-  const usersWithoutGroup = users.filter((user) => !user.group_id);
 
   return (
     <Form form={form} layout="vertical">
@@ -41,12 +37,13 @@ const GroupForm = ({ handleGroupOk, handleCancel, users }) => {
           placeholder="Selecciona los miembros"
           value={selectedUsers}
           onChange={handleSelectChange}
-          options={usersWithoutGroup.map((user) => ({
+          options={users.map(user => ({
             value: user.id, // Usar ID en lugar de username
             label: user.username, // Mostrar el nombre de usuario
-            disabled: user.group_id, // Deshabilitar si ya tiene un grupo
           }))}
         />
+
+
       </Form.Item>
 
       <div>

@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Form, Input, Button, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-
+import { API } from "../../api";
 
 function Login() {
   const [form] = Form.useForm(); // Hook de Ant Design para manejar el formulario
@@ -11,18 +11,20 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    localStorage.removeItem("group_id");
+    localStorage.removeItem("role");
+  };
+
   // Manejo del envío del formulario
   const handleSubmit = async (values) => {
     const { username, password } = values;
-  
+    
     try {
       // Autenticación
-      const response = await axios.post(
-        `http://localhost:5000/login`,
-        { username, password },
-        { headers: { "Content-Type": "application/json" } }
-      );
-  
+      const response = await axios.post(`${API}/login`, { username, password }, { headers: { "Content-Type": "application/json" } } );
       if (response.status === 200) {
         console.log(response.data);
         const token = response.data.token; // Guarda el token recibido
@@ -36,7 +38,7 @@ function Login() {
         message.success(`Inicio de sesión exitoso, bienvenido: ${username}`);
   
         // Llamar a /protected con el token
-        const protectedResponse = await axios.get(`http://localhost:5000/protected`, {
+        const protectedResponse = await axios.get(`${API}/protected`, {
           headers: { Authorization: `Bearer ${token}` },
         });
   
@@ -62,6 +64,9 @@ function Login() {
     const newPassword = e.target.value.trim();
     setPassword(newPassword);
   };
+      useEffect(() => {
+          logout();
+      }, []);
   
   return (
     <div
@@ -133,9 +138,9 @@ function Login() {
           <Button
             type="default"
             block
-            onClick={() => navigate("/Pages/LandingPage/LandingPage")}
+            onClick={() => navigate("/Pages/RegistrationPage/RegistrationPage")}
           >
-            Landing Page
+            Registro
           </Button>
         </Form.Item>
       </Form>

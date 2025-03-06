@@ -1,17 +1,34 @@
 import React from "react";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, message } from "antd";
 import {
   DashboardOutlined,
   UserOutlined,
-  SettingOutlined,
   LogoutOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 const { Header, Sider, Content } = Layout;
 
+const logout = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("username");
+  localStorage.removeItem("group_id");
+  localStorage.removeItem("role");
+  window.location.href = "/Pages/LoginPage/LoginPage";
+};
+
 const MainLayouts = ({ children }) => {
   const navigate = useNavigate();
-
+  const token = localStorage.getItem("token");
+  const userRole = localStorage.getItem("role");
+  
+  if (token === null) {
+    message.error("Debes iniciar sesión");
+    setTimeout(() => {
+        window.location.href = "/Pages/LoginPage/LoginPage";
+    }, 1000); // Redirige después de 1 segundo
+}
+  
   return (
     <Layout style={{ minHeight: "100vh" }}>
       {/* Sidebar */}
@@ -22,8 +39,9 @@ const MainLayouts = ({ children }) => {
             icon={<DashboardOutlined />}
             onClick={() => navigate("/Pages/Dashboard/DashboardPage")}
           >
-            Dashboard
+            Tasks
           </Menu.Item>
+          {userRole !== "1" && userRole !== "2" && (
           <Menu.Item
             key="2"
             icon={<UserOutlined />}
@@ -31,17 +49,20 @@ const MainLayouts = ({ children }) => {
           >
             Usuarios
           </Menu.Item>
+          )}
+            {userRole !== "1" && userRole !== "2" && (
           <Menu.Item
             key="3"
-            icon={<SettingOutlined />}
-            onClick={() => navigate("/Pages/Dashboard/DashboardHelp")}
+            icon={<TeamOutlined />}
+            onClick={() => navigate("/Pages/Dashboard/DashboardGroups")}
           >
-            Configuración
+            Groups
           </Menu.Item>
+              )}
           <Menu.Item
             key="4"
             icon={<LogoutOutlined />}
-            onClick={() => navigate("/Pages/LoginPage/LoginPage")}
+            onClick={() => logout()}
           >
             Logout
           </Menu.Item>

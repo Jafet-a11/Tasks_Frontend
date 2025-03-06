@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import validator from "validator";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +10,13 @@ function Registrationpage() {
     email: "",
     password: "",
   });
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    localStorage.removeItem("group_id");
+    localStorage.removeItem("role");
+  };
 
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
@@ -31,7 +38,7 @@ function Registrationpage() {
 
       if (response.status === 200) {
         message.success("Datos registrados correctamente");
-        navigate("/Pages/LandingPage/LandingPage");
+        navigate("/Pages/LoginPage/LoginPage");
       }else{
         message.error("Usuario o correo ya están registradosor");
       }
@@ -52,6 +59,10 @@ function Registrationpage() {
     setErrors(newErrors);
   };
 
+ useEffect(() => {
+          logout();
+      }, []);
+  
   return (
     <div
       style={{
@@ -95,8 +106,8 @@ function Registrationpage() {
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit">Registrarse</Button>
-          <Button type="link" onClick={() => navigate("/Pages/LandingPage/LandingPage")}>
-            Landing Page
+          <Button type="link" onClick={() => navigate("/Pages/LoginPage/LoginPage")}>
+             Iniciar sesion
           </Button>
         </Form.Item>
       </Form>

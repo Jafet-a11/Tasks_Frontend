@@ -3,7 +3,8 @@ import { Form, Input, DatePicker, Select, Button } from "antd";
 
 const { Option } = Select;
 
-const TaskForm = ({ form, handleOk, handleCancel }) => {
+const TaskForm = ({ form, handleOk, handleCancel, editingTask }) => {
+  console.log(editingTask);
   return (
     <Form form={form} layout="vertical">
       <Form.Item
@@ -13,6 +14,7 @@ const TaskForm = ({ form, handleOk, handleCancel }) => {
       >
         <Input />
       </Form.Item>
+
       <Form.Item
         name="category"
         label="Categoría"
@@ -24,11 +26,35 @@ const TaskForm = ({ form, handleOk, handleCancel }) => {
           <Option value="Estudio">Estudio</Option>
         </Select>
       </Form.Item>
-      <Form.Item name="deadline" label="Fecha y Hora límite">
-        <DatePicker 
-          style={{ width: "100%" }} 
-          format="YYYY-MM-DD HH:mm" 
+
+      {editingTask && (
+        <Form.Item label="Fecha Anterior">
+          <Input
+            value={
+              editingTask.deadline?._seconds
+                ? new Date(editingTask.deadline._seconds * 1000).toLocaleString(
+                  "es-MX",
+                  {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  }
+                )
+                : "Fecha no disponible"
+            }
+            disabled
+          />
+        </Form.Item>
+      )}
+
+      <Form.Item name="newDeadline" label="Nueva Fecha y Hora límite">
+        <DatePicker
+          style={{ width: "100%" }}
+          format="YYYY-MM-DD HH:mm"
           showTime={{ format: "HH:mm" }}
+          placeholder="Ingresar nueva fecha"
         />
       </Form.Item>
 
@@ -39,6 +65,7 @@ const TaskForm = ({ form, handleOk, handleCancel }) => {
       >
         <Input.TextArea rows={3} />
       </Form.Item>
+
       <Form.Item
         name="status"
         label="Estado"
@@ -53,6 +80,7 @@ const TaskForm = ({ form, handleOk, handleCancel }) => {
           <Option value="Completado">Completado</Option>
         </Select>
       </Form.Item>
+
       <Button type="primary" onClick={handleOk}>
         Guardar
       </Button>

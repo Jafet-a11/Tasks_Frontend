@@ -3,33 +3,41 @@ import { Form, Input, DatePicker, Select, Button } from "antd";
 
 const { Option } = Select;
 
-const GroupFormTask = ({ form, handleGroupTask, handleCancelGroup, users }) => {
+const GroupFormTask = ({ form, handleGroupTask, handleCancelGroup, group }) => {
   const [filteredUsers, setFilteredUsers] = useState([]);
+  const [filteredGroups, setFilteredGroups] = useState([]);
   const username = localStorage.getItem("username");
-  const userGroupId = localStorage.getItem("group_id"); // Obtenemos el group_id del usuario
 
   useEffect(() => {
-    // Verifica si userGroupId está presente y usuarios está definido
-    console.log('User Group ID:', userGroupId);
-    console.log('Users:', users);
-  
-    if (userGroupId && users && users.length > 0) {
-      // Convertimos ambos valores a números para asegurar la comparación correcta
-      const groupUsers = users.filter(user => Number(user.group_id) === Number(userGroupId));
-      console.log('Usuarios filtrados:', groupUsers);
-      setFilteredUsers(groupUsers);
+    if (username && Array.isArray(group)) {
+      // Filtrar los grupos donde el usuario es el creador
+      const userGroups = group.filter(g => g.created_by === username);
+      
+      // Filtrar los grupos en los que el usuario está presente en la lista de miembros
+      const userGroupsWithMembers = userGroups.filter(g => g.members.includes(username));
+      
+      // Si el usuario pertenece a algún grupo, extraemos los miembros del primer grupo encontrado
+      if (userGroupsWithMembers.length > 0) {
+        setFilteredUsers(userGroupsWithMembers[0].members); // Asignamos los miembros del primer grupo
+        setFilteredGroups(userGroupsWithMembers); // Filtramos los grupos
+      } else {
+        setFilteredUsers([]); // Si no hay coincidencias, dejar vacío
+        setFilteredGroups([]); // Si no hay coincidencias, dejar vacío
+      }
     }
-  }, [users, userGroupId]);
-  
+  }, [group, username]);
 
-  const handleSelectChange = (value) => {
-    const selected = filteredUsers.find((user) => user.id === value);
-    form.setFieldsValue({ assignedUser: value, assignedUserName: selected?.username || "" });
+  const handleSelectGroupChange = (value) => {
+    const selectedGroup = filteredGroups.find(group => group.id === value);
+    if (selectedGroup) {
+      setFilteredUsers(selectedGroup.members); // Asignar los miembros del grupo seleccionado
+      form.setFieldsValue({ assignedUser: "", assignedUserName: "" }); // Limpiar los usuarios asignados
+    }
   };
 
-  if (!filteredUsers || filteredUsers.length === 0) {
-    return <p>No hay usuarios en el mismo grupo o no estas en un grupo.</p>;
-  }
+  const handleSelectChange = (value) => {
+    form.setFieldsValue({ assignedUser: value, assignedUserName: value });
+  };
 
   return (
     <Form
@@ -90,6 +98,21 @@ const GroupFormTask = ({ form, handleGroupTask, handleCancelGroup, users }) => {
         </Select>
       </Form.Item>
 
+      {/* Selección de Grupo */}
+      <Form.Item
+        name="group"
+        label="Seleccionar Grupo"
+        rules={[{ required: true, message: "Selecciona un grupo" }]} >
+        <Select
+          placeholder="Selecciona un grupo"
+          onChange={handleSelectGroupChange}
+          options={filteredGroups.map(group => ({
+            value: group.id, // ID del grupo como valor
+            label: group.nameGroup, // Nombre del grupo como etiqueta
+          }))} />
+      </Form.Item>
+
+      {/* Asignar Usuario */}
       <Form.Item
         name="assignedUser"
         label="Asignar Usuario"
@@ -97,9 +120,9 @@ const GroupFormTask = ({ form, handleGroupTask, handleCancelGroup, users }) => {
         <Select
           placeholder="Selecciona un usuario"
           onChange={handleSelectChange}
-          options={filteredUsers.map((user) => ({
-            value: user.id,
-            label: user.username,
+          options={filteredUsers.map(user => ({
+            value: user, // El nombre de usuario es el value
+            label: user, // También es el label
           }))} />
       </Form.Item>
 

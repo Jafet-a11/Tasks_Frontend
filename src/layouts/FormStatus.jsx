@@ -3,18 +3,18 @@ import { Form, Select, Button } from "antd";
 
 const { Option } = Select;
 
-const StatusForm = ({ tasks, userGroupId, handleUpdateStatus }) => {
+const StatusForm = ({ tasks, selectedGroup, handleUpdateStatus }) => {
   const [filteredTasks, setFilteredTasks] = useState([]);
   const [form] = Form.useForm();
 
   useEffect(() => {
-    if (userGroupId && tasks.length > 0) {
+    if (selectedGroup && tasks.length > 0) {
       const groupTasks = tasks.filter(
-        (task) => Number(task.group_id) === Number(userGroupId)
+        (task) => Number(task.group_id) === Number(selectedGroup)
       );
       setFilteredTasks(groupTasks);
     }
-  }, [tasks, userGroupId]);
+  }, [tasks, selectedGroup]);
 
   const onFinish = (values) => {
     console.log("Valores del formulario:", values);
@@ -23,6 +23,7 @@ const StatusForm = ({ tasks, userGroupId, handleUpdateStatus }) => {
 
       handleUpdateStatus(values.taskId, values.status);
         console.log("Estatus:"+values.status);
+
     } else {
       console.error("status o taskId no están definidos");
     }
