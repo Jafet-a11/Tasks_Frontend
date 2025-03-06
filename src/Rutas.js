@@ -11,7 +11,7 @@ const Rutas = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Navigate to="/Pages/LandingPage/LandingPage" />} />
+        <Route path="/" element={<Navigate to="/Pages/LoginPage/LoginPage" />} />
         <Route path="/Pages/Dashboard/DashboardPage" element={<DashboardPage />} />
         <Route path="/Pages/Dashboard/DashboardUser" element={<DashboardUser />} />
         <Route path="/Pages/Dashboard/DashboardGroups" element={<DashboardGroups />} />
