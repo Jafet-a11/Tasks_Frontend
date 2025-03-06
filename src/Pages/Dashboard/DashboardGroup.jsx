@@ -230,6 +230,7 @@ const DashboardGroup = () => {
       await axios.delete(`${API}/eliminar-task/${taskToDelete}`, { headers: { Authorization: `Bearer ${token}` }, });
       message.success("Tarea eliminada correctamente");
       obtenerTasks();
+      obtenerTasksGroup(selectedGroup);
       setIsDeleteModalOpen(false);
     } catch (error) {
       message.error("Error al eliminar la tarea");
