@@ -3,6 +3,7 @@ import validator from "validator";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Form, Input, Button, message } from "antd";
+import { API } from "../../api";
 import '../../App.css';
 function Registrationpage() {
   const [formData, setFormData] = useState({
@@ -29,7 +30,7 @@ function Registrationpage() {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/registro",
+        `${API}/registro`,
         JSON.stringify(formData),
         {
           headers: { "Content-Type": "application/json" },

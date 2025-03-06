@@ -14,7 +14,7 @@ const logout = () => {
   localStorage.removeItem("username");
   localStorage.removeItem("group_id");
   localStorage.removeItem("role");
-  window.location.href = "/Pages/LoginPage/LoginPage";
+  window.location.href = "/#/Pages/LoginPage/LoginPage";
 };
 
 const MainLayouts = ({ children }) => {
@@ -25,7 +25,7 @@ const MainLayouts = ({ children }) => {
   if (token === null) {
     message.error("Debes iniciar sesión");
     setTimeout(() => {
-        window.location.href = "/Pages/LoginPage/LoginPage";
+        window.location.href = "/#/Pages/LoginPage/LoginPage";
     }, 1000); // Redirige después de 1 segundo
 }
   
