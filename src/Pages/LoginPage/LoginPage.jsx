@@ -79,7 +79,7 @@ function Login() {
          background:"white",
       }}
     >
-      <h2 style={{ textAlign: "center" }}>Iniciar Sesión</h2>
+      <h2 style={{ textAlign: "center" }}>Iniciar Sesiónsss</h2>
 
       <Form form={form} layout="vertical" onFinish={handleSubmit}>
         {/* Campo de usuario */}
