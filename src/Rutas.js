@@ -11,14 +11,14 @@ const Rutas = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Navigate to="/Pages/LoginPage/LoginPage" />} />
-        <Route path="/Pages/Dashboard/DashboardPage" element={<DashboardPage />} />
-        <Route path="/Pages/Dashboard/DashboardUser" element={<DashboardUser />} />
-        <Route path="/Pages/Dashboard/DashboardGroups" element={<DashboardGroups />} />
-        <Route path="/Pages/LoginPage/LoginPage" element={<LoginPage />} />
-        <Route path="/Pages/LandingPage/LandingPage" element={<LandingPage />} />
-        <Route path="/Pages/Registrationpage/Registrationpage" element={<RegistrationPage />} />
-        <Route path="/Pages/Dashboard/DashboardGroup" element={<DashboardGroup />} />
+        <Route path="/" element={<Navigate to="/LoginPage" />} />
+        <Route path="/DashboardPage" element={<DashboardPage />} />
+        <Route path="/DashboardUser" element={<DashboardUser />} />
+        <Route path="/DashboardGroups" element={<DashboardGroups />} />
+        <Route path="/LoginPage" element={<LoginPage />} />
+        <Route path="/LandingPage" element={<LandingPage />} />
+        <Route path="/Registrationpage" element={<RegistrationPage />} />
+        <Route path="/DashboardGroup" element={<DashboardGroup />} />
       </Routes>
     </Router>
   );

@@ -21,14 +21,14 @@ function LandingPage() {
       {/* Se usa Row y Col para alinear los botones horizontalmente */}
       <Row gutter={16} justify="center">
         <Col span={12}>
-          <Button type="primary" block onClick={() => navigate("/Pages/LoginPage/LoginPage")}>
+          <Button type="primary" block onClick={() => navigate("/LoginPage")}>
             Login
           </Button>
         </Col>
 
         <Col span={12}>
           <Button type="primary" danger block 
-          onClick={() => navigate("/Pages/Registrationpage/Registrationpage")}>
+          onClick={() => navigate("/Registrationpage")}>
             Registro
           </Button>
         </Col>

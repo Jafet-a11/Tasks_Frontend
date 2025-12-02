@@ -14,7 +14,7 @@ const logout = () => {
   localStorage.removeItem("username");
   localStorage.removeItem("group_id");
   localStorage.removeItem("role");
-  window.location.href = "/#/Pages/LoginPage/LoginPage";
+  window.location.href = "/LoginPage";
 };
 
 const MainLayouts = ({ children }) => {
@@ -25,7 +25,7 @@ const MainLayouts = ({ children }) => {
   if (token === null) {
     message.error("Debes iniciar sesión");
     setTimeout(() => {
-        window.location.href = "/#/Pages/LoginPage/LoginPage";
+        window.location.href = "/LoginPage";
     }, 1000); // Redirige después de 1 segundo
 }
   
@@ -37,7 +37,7 @@ const MainLayouts = ({ children }) => {
           <Menu.Item
             key="1"
             icon={<DashboardOutlined />}
-            onClick={() => navigate("/Pages/Dashboard/DashboardPage")}
+            onClick={() => navigate("/DashboardPage")}
           >
             Tasks
           </Menu.Item>
@@ -45,7 +45,7 @@ const MainLayouts = ({ children }) => {
           <Menu.Item
             key="2"
             icon={<UserOutlined />}
-            onClick={() => navigate("/Pages/Dashboard/DashboardUser")}
+            onClick={() => navigate("/DashboardUser")}
           >
             Usuarios
           </Menu.Item>
@@ -54,7 +54,7 @@ const MainLayouts = ({ children }) => {
           <Menu.Item
             key="3"
             icon={<TeamOutlined />}
-            onClick={() => navigate("/Pages/Dashboard/DashboardGroups")}
+            onClick={() => navigate("/DashboardGroups")}
           >
             Groups
           </Menu.Item>

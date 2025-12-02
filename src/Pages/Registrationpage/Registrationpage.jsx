@@ -39,7 +39,7 @@ function Registrationpage() {
 
       if (response.status === 200) {
         message.success("Datos registrados correctamente");
-        navigate("/Pages/LoginPage/LoginPage");
+        navigate("/LoginPage");
       }else{
         message.error("Usuario o correo ya están registradosor");
       }
@@ -107,7 +107,7 @@ function Registrationpage() {
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit">Registrarse</Button>
-          <Button type="link" onClick={() => navigate("/Pages/LoginPage/LoginPage")}>
+          <Button type="link" onClick={() => navigate("/LoginPage")}>
              Iniciar sesion
           </Button>
         </Form.Item>

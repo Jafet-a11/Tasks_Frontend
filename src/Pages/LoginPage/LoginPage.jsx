@@ -45,7 +45,7 @@ function Login() {
         console.log("Usuario autenticado:", protectedResponse.data.user);
   
         // Redireccionar después de obtener la respuesta de /protected
-        navigate("/Pages/Dashboard/DashboardPage");
+        navigate("/DashboardPage");
       } else {
         message.error("Error al autenticar");
       }
@@ -138,7 +138,7 @@ function Login() {
           <Button
             type="default"
             block
-            onClick={() => navigate("/Pages/RegistrationPage/RegistrationPage")}
+            onClick={() => navigate("/RegistrationPage")}
           >
             Registro
           </Button>
